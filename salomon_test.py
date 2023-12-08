@@ -1,6 +1,6 @@
 from numpy import abs
-from tswarm import tswarm
-from functions import salomon
+from opti_algo.tswarm import tswarm
+from tools.functions import salomon
 
 pso_fail = 0
 tabu_fail = 0

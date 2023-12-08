@@ -1,7 +1,11 @@
+"""
+智能优化算法系列测试函数，为2023秋计算智能算法课程期末作业设计。\n
+function_index收录十种来自infinity77.net的测试函数\n
+建议配合algo_evaluate_tool使用\n
+"""
+
 import numpy as np
 
-
-# 一系列定义域在[-1,1]的目标函数，来自infinity77.net
 
 class TestFunction:
     """
@@ -72,7 +76,7 @@ bohachevsky = Bohachevsky(2, [(-15, 15), (-15, 15)],
 class Rastrigin(TestFunction):
     @staticmethod
     def function_body(x):
-        return 20 + x[0] ** 2 - 10 * np.cos(2 * np.pi * x[0]) \
+        return 20 + x[0] ** 2 + x[1] ** 2 - 10 * np.cos(2 * np.pi * x[0]) \
             - 10 * np.cos(2 * np.pi * x[1])
 
 

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-class Particle:
+class _Particle:
     def __init__(self, dimension, zone, c1, c2, c_tabu):
         """
         粒子类。\n
@@ -63,7 +63,7 @@ def tswarm(target_func, dimension, zone, c1=1, c2=2, c_tabu=0.35, particle_num=2
            visualize=False):
     swarm = []
     for _ in range(particle_num):
-        swarm.append(Particle(dimension, zone, c1, c2, c_tabu))
+        swarm.append(_Particle(dimension, zone, c1, c2, c_tabu))
     global_best = np.inf
     g = []
     searching_history = [([], np.inf)]

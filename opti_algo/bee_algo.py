@@ -14,12 +14,13 @@ class _Bee:
 
     def get_neighbor_zone(self, ngh):
         neighbor_zone = []
-        for dim in self.x:
-            neighbor_zone.append((dim - ngh, dim + ngh))
+        for i in range(self.dimension):
+            zonesize = ngh*(self.zone[i][1]-self.zone[i][0])
+            neighbor_zone.append((self.x[i] - zonesize, self.x[i] + zonesize))
         return neighbor_zone
 
 
-def bee_algo(target_func, dimension, zone, n=100, m=20, e=5, ngh=1, n1=40, n2=20, max_iter=100):
+def bee_algo(target_func, dimension, zone, n=200, m=20, e=5, ngh=0.5, n1=40, n2=20, max_iter=50):
     colony = []
     for i in range(n):
         colony.append(_Bee(dimension, zone, target_func))
