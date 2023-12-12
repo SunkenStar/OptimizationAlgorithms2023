@@ -15,6 +15,7 @@ class _Particle:
         """
         self.x = []
         self.v = []
+        self.dimension = dimension
         for i in range(dimension):
             self.x.append(random.uniform(zone[i][0], zone[i][1]))
             self.v.append(self.x[i] * random.random())
@@ -45,7 +46,11 @@ class _Particle:
         禁忌表中每一项禁忌都会产生一个和距离成反比的“斥力”影响粒子，这样可以半强迫式地要求算法搜索其他区域。\n
         当粒子碰撞边界时速度变为原来的反向，位置取在边界上
         """
-        for i in range(len(self.x)):
+        while len(self.x) < self.dimension:
+            self.x.append(random.uniform(zone[len(self.x)][0], zone[len(self.x)][1]))
+        while len(self.v) < self.dimension:
+            self.v.append(random.uniform(zone[len(self.v)][0], zone[len(self.v)][1]))
+        for i in range(self.dimension):
             self.x[i] = self.x[i] + self.v[i]
             if self.x[i] > self.zone[i][1]:
                 self.x[i] = self.zone[i][1]
@@ -53,7 +58,7 @@ class _Particle:
             if self.x[i] < self.zone[i][0]:
                 self.x[i] = self.zone[i][0]
                 self.v[i] = -self.v[i]
-        for i in range(len(self.v)):
+        for i in range(self.dimension):
             history_influence = self.c1 * random.random() * (self.x_best[i] - self.x[i])
             peer_influence = self.c2 * random.random() * (g[i] - self.x[i])
             tabu_influence = 0
@@ -72,8 +77,14 @@ class TSwarm(Optimizer):
     禁忌粒子群算法，求取目标函数最小值\n
     在传统粒子群搜索算法中结合了禁忌搜索的思想。\n
     定义五位禁忌表，采用队列的数据结构，每次迭代后入队当前最优位置，相应使得一个位置出队\n
-    禁忌表中每个位置对粒子产生一个和距离成比例的斥力，强迫搜索未探索部分。
+    禁忌表中每个位置对粒子产生一个和距离成比例的斥力，强迫搜索未探索部分。\n
+    args可选传入以下参数按顺序排成的元组：\n
+        c1、c2：粒子群优化算法的参数
+        c_tabu：禁忌产生的斥力系数
+        particle_num：粒子个数
+        max_iter：迭代次数上限
     """
+
     def __str__(self):
         return "禁忌粒子群算法"
 

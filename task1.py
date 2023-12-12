@@ -5,10 +5,9 @@ from tools.algo_evaluate_tool import algo_test_single, algo_test_multi
 from tools.functions import function_index as funcs
 
 
-if __name__ == '__main__':
-    
-    algo_test_multi(TSwarm, funcs, times=50)
-    algo_test_multi(BeeAlgorithm, funcs, times=50)
+if __name__ == "__main__":
+    algo_test_multi(TSwarm, funcs, times=50, arguments=(1, 3, 0.4, 10, 50))
+    # algo_test_multi(BeeAlgorithm, funcs, times=50)
     # algo_test_multi(ParallelBee, funcs, times=50)
 
 

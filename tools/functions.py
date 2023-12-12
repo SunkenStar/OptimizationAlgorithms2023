@@ -29,13 +29,13 @@ class TestFunction:
 class Ackley(TestFunction):
     @staticmethod
     def function_body(x):
-        a = -20 * np.e ** (-0.2 * np.sqrt(sum([k ** 2 for k in x]) / len(x)))
+        a = -20 * np.e ** (-0.2 * np.sqrt(sum([k**2 for k in x]) / len(x)))
         b = -np.e ** ((sum([np.cos(2 * np.pi * k) for k in x])) / len(x))
         return a + b + 20 + np.e
 
 
-ackley = Ackley(2, [(-32, 32), (-32, 32)],
-                (0, 0), 0, 'ackley')
+ackley = Ackley(2, [(-32, 32), (-32, 32)], (0, 0), 0, "ackley")
+ackley32 = Ackley(32, [(-32, 32)] * 32, (0,) * 32, 0, "ackley32")
 
 
 class Alpine01(TestFunction):
@@ -45,8 +45,8 @@ class Alpine01(TestFunction):
         return np.sum(np.abs(np.multiply(variable, np.sin(variable)) + 0.1 * variable))
 
 
-alpine01 = Alpine01(2, [(-10, 10), (-10, 10)],
-                    (0, 0), 0, 'alpine01')
+alpine01 = Alpine01(2, [(-10, 10), (-10, 10)], (0, 0), 0, "alpine01")
+alpine0132 = Alpine01(32, [(-10, 10)] * 32, (0,) * 32, 0, "alpine0132")
 
 
 class Bartelsconn(TestFunction):
@@ -56,8 +56,7 @@ class Bartelsconn(TestFunction):
         return a + np.abs(np.sin(x[0])) + np.abs(np.cos(x[1]))
 
 
-bartelsconn = Bartelsconn(2, [(-50, 50), (-50, 50)],
-                          (0, 0), 1, 'bartelsconn')
+bartelsconn = Bartelsconn(2, [(-50, 50), (-50, 50)], (0, 0), 1, "bartelsconn")
 
 
 class Bohachevsky(TestFunction):
@@ -69,19 +68,22 @@ class Bohachevsky(TestFunction):
         return a + b + c + 0.7
 
 
-bohachevsky = Bohachevsky(2, [(-15, 15), (-15, 15)],
-                          (0, 0), 0, 'bohachevsky')
+bohachevsky = Bohachevsky(2, [(-15, 15), (-15, 15)], (0, 0), 0, "bohachevsky")
 
 
 class Rastrigin(TestFunction):
     @staticmethod
     def function_body(x):
-        return 20 + x[0] ** 2 + x[1] ** 2 - 10 * np.cos(2 * np.pi * x[0]) \
+        return (
+            20
+            + x[0] ** 2
+            + x[1] ** 2
+            - 10 * np.cos(2 * np.pi * x[0])
             - 10 * np.cos(2 * np.pi * x[1])
+        )
 
 
-rastrigin = Rastrigin(2, [(-4.5, 4.5), (-4.5, 4.5)],
-                      (0, 0), 0, 'rastrigin')
+rastrigin = Rastrigin(2, [(-4.5, 4.5), (-4.5, 4.5)], (0, 0), 0, "rastrigin")
 
 
 class Eggcrate(TestFunction):
@@ -92,30 +94,29 @@ class Eggcrate(TestFunction):
         return a + b
 
 
-eggcrate = Eggcrate(2, [(-5, 5), (-5, 5)],
-                    (0, 0), 0, 'eggcrate')
+eggcrate = Eggcrate(2, [(-5, 5), (-5, 5)], (0, 0), 0, "eggcrate")
 
 
 class Exponential(TestFunction):
     @staticmethod
     def function_body(x):
-        return -1 * np.e ** (-0.5 * sum([k ** 2 for k in x]))
+        return -1 * np.e ** (-0.5 * sum([k**2 for k in x]))
 
 
-exponential = Exponential(2, [(-1, 1), (-1, 1)],
-                          (0, 0), -1, 'exponential')
+exponential = Exponential(2, [(-1, 1), (-1, 1)], (0, 0), -1, "exponential")
+exponential32 = Exponential(32, [(-1, 1)] * 32, (0,) * 32, -1, "exponential32")
 
 
 class Salomon(TestFunction):
     @staticmethod
     def function_body(x):
-        a = np.cos(2 * np.pi * np.sqrt(sum([k ** 2 for k in x])))
-        b = 0.1 * np.sqrt(sum([k ** 2 for k in x]))
+        a = np.cos(2 * np.pi * np.sqrt(sum([k**2 for k in x])))
+        b = 0.1 * np.sqrt(sum([k**2 for k in x]))
         return 1 - a + b
 
 
-salomon = Salomon(2, [(-100, 100), (-100, 100)],
-                  (0, 0), 0, 'salomon')
+salomon = Salomon(2, [(-100, 100), (-100, 100)], (0, 0), 0, "salomon")
+salomon32 = Salomon(32, [(-100, 100)] * 32, (0,) * 32, 0, "salomon32")
 
 
 class Himmerblau(TestFunction):
@@ -126,8 +127,7 @@ class Himmerblau(TestFunction):
         return a + b
 
 
-himmerblau = Himmerblau(2, [(-6, 6), (-6, 6)],
-                        (0, 0), 0, 'himmerblau')
+himmerblau = Himmerblau(2, [(-6, 6), (-6, 6)], (0, 0), 0, "himmerblau")
 
 
 class MultiModal(TestFunction):
@@ -138,9 +138,20 @@ class MultiModal(TestFunction):
         return a * b
 
 
-multimodal = MultiModal(2, [(-10, 10), (10, 10)],
-                        (0, 0), 0, 'multimodal')
+multimodal = MultiModal(2, [(-10, 10), (10, 10)], (0, 0), 0, "multimodal")
+multimodal32 = MultiModal(32, [(-10, 10)] * 32, (0,) * 32, 0, "multimodal32")
 
-function_index = [ackley, alpine01, bartelsconn, bohachevsky,
-                  eggcrate, exponential, salomon, himmerblau,
-                  multimodal, rastrigin]
+
+function_index = [
+    ackley,
+    alpine01,
+    bartelsconn,
+    bohachevsky,
+    eggcrate,
+    exponential,
+    salomon,
+    himmerblau,
+    multimodal,
+    rastrigin,
+]
+function_index32 = [ackley32, alpine0132, exponential32, salomon32, multimodal32]
