@@ -6,23 +6,28 @@ from tools.functions import function_index as funcs
 
 
 if __name__ == "__main__":
-    algo_test_multi(TSwarm, funcs, times=50, arguments=(1, 3, 0.4, 10, 50))
+    # algo_test_multi(TSwarm, funcs, times=50)
     # algo_test_multi(BeeAlgorithm, funcs, times=50)
-    # algo_test_multi(ParallelBee, funcs, times=50)
+#     # algo_test_multi(ParallelBee, funcs, times=50)
+#    algo_test_single(TSwarm, funcs, verbose=True)
+    pass
 
 
-# def wrapped_bee(x):
-#     t = x.copy()
-#     for i in (0,1,2,5,6):
-#         t[i]=int(x[i])
-#     t.append(50)
-#     return 1/algo_test_multi(BeeAlgorithm, funcs, arguments=t, times=10, silent=True)[0]
+def wrapped_bee(x):
+    t = x.copy()
+    for i in (0,1,2,4,5):
+        t[i]=int(x[i])
+    t.append(50)
+    testpass, total, time_consumed = algo_test_multi(BeeAlgorithm, funcs, arguments=t, times=50, silent=True)
+    if time_consumed > 20 or testpass < total - 60:
+        return 1e10
+    return total - testpass + time_consumed
 
-# tswarm_algo = TSwarm(
-#     wrapped_bee,
-#     dimension=7,
-#     zone=[(30,60),(4,6),(1,4),(0.5,0.8),(0.5,0.9),(30,50),(10,20)],
-#     args=(1, 3, 0.4, 20, 100),
-# )
-# result = tswarm_algo.optimize()
-# print(result)
+tswarm_algo = TSwarm(
+    wrapped_bee,
+    dimension=6,
+    zone=[(30,80),(3,6),(1,3),(0,1),(30,50),(10,20)],
+    args=(1, 3, 0.4, 10, 50),
+)
+result = tswarm_algo.optimize()
+print(result)

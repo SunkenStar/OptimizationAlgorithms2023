@@ -30,7 +30,7 @@ print("\n")
 
 print("salomon函数32维测试")
 
-for _ in range(100):
+for _ in range(10):
     pso = TSwarm(
         salomon32.function_body,
         salomon32.dimension,
@@ -42,7 +42,7 @@ for _ in range(100):
     if delta > 1e-1:
         pso_fail += 1
 
-for _ in range(100):
+for _ in range(10):
     tswarm_algo = TSwarm(
         salomon32.function_body,
         salomon32.dimension,

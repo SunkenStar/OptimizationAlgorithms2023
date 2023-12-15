@@ -5,6 +5,8 @@ function_index收录十种来自infinity77.net的测试函数\n
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import cm
 
 
 class TestFunction:
@@ -24,6 +26,20 @@ class TestFunction:
         """
         函数体
         """
+
+    def visualize(self, step=0.01):
+        """
+        可视化二维测试函数
+        """
+        assert self.dimension == 2
+        x = np.arange(self.zone[0][0], self.zone[0][1],step)
+        y = np.arange(self.zone[1][0], self.zone[1][1],step)
+        X, Y = np.meshgrid(x,y)
+        Z = self.function_body((X,Y))
+        fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+        surf = ax.plot_surface(X, Y, Z, cmap = cm.YlGnBu, linewidth=0, antialiased=False)
+        fig.colorbar(surf, shrink=0.5, aspect=18)
+        plt.show()
 
 
 class Ackley(TestFunction):
@@ -127,7 +143,7 @@ class Himmerblau(TestFunction):
         return a + b
 
 
-himmerblau = Himmerblau(2, [(-6, 6), (-6, 6)], (0, 0), 0, "himmerblau")
+himmerblau = Himmerblau(2, [(-6, 6), (-6, 6)], (3, 2), 0, "himmerblau")
 
 
 class MultiModal(TestFunction):
@@ -155,3 +171,6 @@ function_index = [
     rastrigin,
 ]
 function_index32 = [ackley32, alpine0132, exponential32, salomon32, multimodal32]
+
+# ackley.visualize()
+# salomon.visualize()

@@ -78,4 +78,4 @@ def algo_test_multi(algorithm, function_index, arguments=None, times=100, margin
     if not silent:
         print(f"进行{total_tests}轮测试，{dummy}通过{total_passes}轮")
         print(f"通过率{total_passes / total_tests * 100:.2f}%，耗时{time_consumed:.3f}s\n")
-    return total_passes / total_tests, time_consumed
+    return total_passes ,total_tests, time_consumed

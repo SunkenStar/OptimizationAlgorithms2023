@@ -46,10 +46,6 @@ class _Particle:
         禁忌表中每一项禁忌都会产生一个和距离成反比的“斥力”影响粒子，这样可以半强迫式地要求算法搜索其他区域。\n
         当粒子碰撞边界时速度变为原来的反向，位置取在边界上
         """
-        while len(self.x) < self.dimension:
-            self.x.append(random.uniform(zone[len(self.x)][0], zone[len(self.x)][1]))
-        while len(self.v) < self.dimension:
-            self.v.append(random.uniform(zone[len(self.v)][0], zone[len(self.v)][1]))
         for i in range(self.dimension):
             self.x[i] = self.x[i] + self.v[i]
             if self.x[i] > self.zone[i][1]:

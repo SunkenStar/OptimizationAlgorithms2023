@@ -21,6 +21,8 @@ class Bee:
             self.x.append(random.uniform(zone[i][0], zone[i][1]))
         self.err = np.inf
         self.err = target_func(self.x)
+        self.k_ngh = 1
+        self.exhausted = 0
 
     def get_neighbor_zone(self, ngh):
         """
@@ -28,7 +30,7 @@ class Bee:
         """
         neighbor_zone = []
         for i in range(self.dimension):
-            zonesize = ngh * (self.zone[i][1] - self.zone[i][0])
+            zonesize = self.k_ngh * ngh * (self.zone[i][1] - self.zone[i][0])
             low = max(self.x[i] - zonesize, self.zone[i][0])
             high = min(self.x[i] + zonesize, self.zone[i][1])
             neighbor_zone.append((low, high))
@@ -56,20 +58,25 @@ class BeeAlgorithm(Optimizer):
             )
         )
         result = min(workers, key=lambda x: x.err)
-        result.zone = self.zone
+        if result.err > scout.err:
+            result = scout
+            result.k_ngh = scout.k_ngh * 0.8
+            if result.k_ngh < 0.8 ** 3:
+                result.exhausted = 1
+            result.zone = self.zone
         return result
 
     def optimize(self):
         if self.args:
             arguments = self.args
         else:
-            arguments = (40, 5, 3, 0.77, 0.66, 45, 15, 50)
-        n, m, e, ngh, shrink, n1, n2, max_iter = arguments
+            arguments = (30, 6, 2, 0.25, 47, 10, 50)
+        n, m, e, ngh, n1, n2, max_iter = arguments
         colony = []
         for i in range(n):
             colony.append(Bee(self.dimension, self.zone, self.target_func))
         for _ in range(max_iter):
-            colony.sort(key=lambda x: x.err)
+            colony.sort(key=lambda x: (x.err, x.exhausted))
             self.searching_history.append((colony[0].x, colony[0].err))
             high_fitness = colony[0:e]
             medium_fitness = colony[e:m]
@@ -86,7 +93,6 @@ class BeeAlgorithm(Optimizer):
                 )
             )
             colony = next_generation_high + next_generation_medium + next_generation_low
-            ngh *= shrink
         last = min(colony, key=lambda x: x.err)
         self.searching_history.append((last.x, last.err))
         return min(self.searching_history, key=lambda x: x[1])
