@@ -1,17 +1,7 @@
 from opti_algo.tswarm import TSwarm
 from opti_algo.bee_algo import BeeAlgorithm
-from opti_algo.bee_algo import ParallelBee
 from tools.algo_evaluate_tool import algo_test_single, algo_test_multi
 from tools.functions import function_index as funcs
-
-
-if __name__ == "__main__":
-    # algo_test_multi(TSwarm, funcs, times=50)
-    # algo_test_multi(BeeAlgorithm, funcs, times=50)
-#     # algo_test_multi(ParallelBee, funcs, times=50)
-#    algo_test_single(TSwarm, funcs, verbose=True)
-    pass
-
 
 def wrapped_bee(x):
     t = x.copy()

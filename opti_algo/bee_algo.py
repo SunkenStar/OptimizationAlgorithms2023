@@ -70,7 +70,7 @@ class BeeAlgorithm(Optimizer):
         if self.args:
             arguments = self.args
         else:
-            arguments = (30, 6, 2, 0.25, 47, 10, 50)
+            arguments = (66, 5, 2, 0.14, 47, 19, 50)
         n, m, e, ngh, n1, n2, max_iter = arguments
         colony = []
         for i in range(n):

@@ -27,19 +27,36 @@ class TestFunction:
         函数体
         """
 
-    def visualize(self, step=0.01):
+    def visualize(self, step=0.01, masterplot=None):
         """
         可视化二维测试函数
         """
         assert self.dimension == 2
-        x = np.arange(self.zone[0][0], self.zone[0][1],step)
-        y = np.arange(self.zone[1][0], self.zone[1][1],step)
-        X, Y = np.meshgrid(x,y)
-        Z = self.function_body((X,Y))
-        fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-        surf = ax.plot_surface(X, Y, Z, cmap = cm.YlGnBu, linewidth=0, antialiased=False)
-        fig.colorbar(surf, shrink=0.5, aspect=18)
-        plt.show()
+        x = np.arange(self.zone[0][0], self.zone[0][1], step)
+        y = np.arange(self.zone[1][0], self.zone[1][1], step)
+        X, Y = np.meshgrid(x, y)
+        Z = self.function_body((X, Y))
+        if masterplot:
+            fig = masterplot[0]
+            location = masterplot[1]
+            ax = fig.add_subplot(location[0], location[1], location[2], projection="3d")
+            ax.plot_surface(
+                X, Y, Z, cmap=cm.YlGnBu, linewidth=0, antialiased=False, alpha=0.25
+            )
+            ax.scatter(
+                self.best_location[0], self.best_location[1], self.best, color="r"
+            )
+            plt.title(self.name)
+        else:
+            fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+            surf = ax.plot_surface(
+                X, Y, Z, cmap=cm.YlGnBu, linewidth=0, antialiased=False, alpha=0.25
+            )
+            ax.scatter(
+                self.best_location[0], self.best_location[1], self.best, color="r"
+            )
+            fig.colorbar(surf, shrink=0.5, aspect=18)
+            plt.show()
 
 
 class Ackley(TestFunction):
@@ -58,7 +75,7 @@ class Alpine01(TestFunction):
     @staticmethod
     def function_body(x):
         variable = np.array(x)
-        return np.sum(np.abs(np.multiply(variable, np.sin(variable)) + 0.1 * variable))
+        return sum(np.abs(np.multiply(variable, np.sin(variable)) + 0.1 * variable))
 
 
 alpine01 = Alpine01(2, [(-10, 10), (-10, 10)], (0, 0), 0, "alpine01")
@@ -146,17 +163,14 @@ class Himmerblau(TestFunction):
 himmerblau = Himmerblau(2, [(-6, 6), (-6, 6)], (3, 2), 0, "himmerblau")
 
 
-class MultiModal(TestFunction):
+class Plateau(TestFunction):
     @staticmethod
     def function_body(x):
-        a = sum([np.abs(k) for k in x])
-        b = np.prod(np.array([np.abs(k) for k in x]))
-        return a * b
+        return 30 + sum(np.floor(np.abs(k)) for k in x)
 
 
-multimodal = MultiModal(2, [(-10, 10), (10, 10)], (0, 0), 0, "multimodal")
-multimodal32 = MultiModal(32, [(-10, 10)] * 32, (0,) * 32, 0, "multimodal32")
-
+plateau = Plateau(2, [(-5, 5), (-5, 5)], (0, 0), 30, "Plateau")
+plateau32 = Plateau(32, [(-5, 5)] * 32, (0,) * 32, 30, "Plateau32")
 
 function_index = [
     ackley,
@@ -167,10 +181,12 @@ function_index = [
     exponential,
     salomon,
     himmerblau,
-    multimodal,
+    plateau,
     rastrigin,
 ]
-function_index32 = [ackley32, alpine0132, exponential32, salomon32, multimodal32]
-
-# ackley.visualize()
-# salomon.visualize()
+function_index32 = [ackley32, alpine0132, exponential32, salomon32, plateau32]
+if __name__ == "__main__":
+    fig = plt.figure(figsize=(15, 6))
+    for i in range(10):
+        function_index[i].visualize(masterplot=(fig, (2, 5, i + 1)))
+    plt.show()
